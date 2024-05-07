@@ -28,5 +28,5 @@ app.use('/api/message', authenticateUser, messageRoutes);
 app.use('/api/auth', authRoutes);
 
 // start listening
-app.listen(8080);
+app.listen(process.env.PORT || 3000);
 
