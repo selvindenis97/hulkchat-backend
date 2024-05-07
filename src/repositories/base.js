@@ -48,7 +48,6 @@ export class BaseRepository {
         const data = await this.repository
             .search().return.all();
 
-        console.log(data);
         const entityToRemove = [];
         for (let key of Object.keys(data)) {
             entityToRemove.push(data[key][EntityId]);

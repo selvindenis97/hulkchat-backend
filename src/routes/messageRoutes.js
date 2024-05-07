@@ -5,6 +5,8 @@ const router = express.Router();
 
 router.post('/send', messageController.sendMessage);
 
-router.post('/messages', messageController.getMessages);
+router.post('/user', messageController.getUserMessages);
+
+router.post('/channel', messageController.getChannelMessages);
 
 export default router;

@@ -12,13 +12,6 @@ router.post('/login', async (req, res, next) => {
     }
 });
 
-router.post('/register', async (req, res, next) => {
-    try {
-        const user = await authController.register(req);
-        res.status(201).json(user);
-    } catch (err) {
-        next(err);
-    }
-});
+router.post('/register', authController.register);
 
 export default router;

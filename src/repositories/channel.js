@@ -24,7 +24,6 @@ export class ChannelRepository extends BaseRepository {
 
     join = async (userId, channelId) => {
         let channel = await this.repository.search().where("channelId").equals(channelId).return.first();
-        console.log(channel);
         if (channel) {
             if (!channel.members.includes(userId)) {
                 channel.members.push(userId);

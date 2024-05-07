@@ -5,7 +5,6 @@ const channelRepository = new ChannelRepository()
 // Controller function to create new channel
 export const create = async (req, res, next) => {
     try {
-        console.log(req, req.body)
         let result = await channelRepository.add(req.body.name, req.user.userId);
         res.json(result);
     } catch (err) {

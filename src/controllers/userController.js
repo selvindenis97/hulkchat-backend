@@ -15,7 +15,8 @@ export const addUser = async (req, res, next) => {
 // Controller function to create a new message
 export const getAllUsers = async (req, res, next) => {
     try {
-        return await userRepository.getAllUsers();
+        let users = await userRepository.getAllUsers(req.user.userId);
+        res.json(users)
     } catch (err) {
         console.log(err);
         return false;

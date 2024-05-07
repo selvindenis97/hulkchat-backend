@@ -7,7 +7,7 @@ var instance = null;
 
 const schema = new Schema('message', {
     content: { type: 'string' },
-    channelId: { type: 'string' },
+    receiverId: { type: 'string' },
     createdAt: { type: 'date' },
     authorName: { type: 'string' },
     authorId: { type: 'string' },
@@ -24,28 +24,20 @@ export class MessageRepository extends BaseRepository {
         return instance;
     }
 
-    add = async (channelId, content, authorId, authorName) => {
-        console.log("data")
-        let channelRepo = new ChannelRepository();
-        let isMember = await channelRepo.isMember(authorId, channelId);
-        if (isMember) {
-            let message = new MessageModel(channelId, content, authorId, authorName);
-            message = await super.add(message);
-            return message;
-        }
-        return {
-            message: "You are not member of this channel"
-        };
+    add = async (receiverId, content, authorId, authorName, userId) => {
+        let message = new MessageModel(receiverId, content, authorId, authorName, userId);
+        message = await super.add(message);
+        return message;
     }
 
-    getByChannel = async (channelId, userId) => {
-        let channelRepo = new ChannelRepository();
-        let isMember = await channelRepo.isMember(userId, channelId);
-        if (isMember) {
-            return await this.repository.search().where("channelId").equals(channelId).return.all();
-        }
-        return {
-            message: "You are not member of this channel"
-        };
+    getUserMessages = async (receiverId, senderId) => {
+        return await this.repository.search()
+            .where("receiverId").equals(receiverId).and("authorId").equals(senderId)
+            .or(search => search.where("receiverId").equals(senderId).and('authorId').equals(receiverId))
+            .return.all();
+    }
+
+    getChannelMessages = async (receiverId) => {
+        return await this.repository.search().where("receiverId").equals(receiverId).return.all();
     }
 }

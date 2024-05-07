@@ -1,6 +1,6 @@
 export class MessageModel {
-    constructor(channelId, content, authorId, authorName) {
-        this.channelId = channelId;
+    constructor(receiverId, content, authorId, authorName, userId) {
+        this.receiverId = receiverId;
         this.content = content;
         this.authorId = authorId;
         this.authorName = authorName;

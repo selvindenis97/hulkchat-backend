@@ -5,7 +5,7 @@ const messageRepository = new MessageRepository()
 // Controller function to get all messages
 export const sendMessage = async (req, res, next) => {
     try {
-        let result = await messageRepository.add(req.body.channelId, req.body.content, req.user.userId, req.user.username);
+        let result = await messageRepository.add(req.body.receiverId, req.body.content, req.user.userId, req.user.username, req.body.userId);
         res.json(result);
     } catch (err) {
         console.log(err);
@@ -13,10 +13,19 @@ export const sendMessage = async (req, res, next) => {
     }
 };
 
-// Controller function to create a new message
-export const getMessages = async (req, res, next) => {
+export const getUserMessages = async (req, res, next) => {
     try {
-        let result = await messageRepository.getByChannel(req.body.channelId, req.user.userId);
+        let result = await messageRepository.getUserMessages(req.user.userId, req.body.receiverId);
+        res.json(result);
+    } catch (err) {
+        console.log(err);
+        return false;
+    }
+};
+
+export const getChannelMessages = async (req, res, next) => {
+    try {
+        let result = await messageRepository.getChannelMessages(req.body.receiverId);
         res.json(result);
     } catch (err) {
         console.log(err);
